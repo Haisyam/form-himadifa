@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllPengurus, createPengurus } from '@/lib/db';
+import { getAllPengurus, createPengurus, isNamaExists, isNimExists } from '@/lib/db';
 
 export async function GET(request: NextRequest) {
   try {
@@ -44,6 +44,22 @@ export async function POST(request: NextRequest) {
     if (!nama || !nim || !angkatan || !asal_instansi || !alamat_domisili || !no_whatsapp) {
       return NextResponse.json(
         { success: false, message: 'Harap isi semua kolom wajib!' },
+        { status: 400 }
+      );
+    }
+
+    // Duplicate Check for Nama
+    if (isNamaExists(nama)) {
+      return NextResponse.json(
+        { success: false, message: `Nama "${nama.trim()}" sudah terdaftar di database! Tidak bisa menginput nama ganda.` },
+        { status: 400 }
+      );
+    }
+
+    // Duplicate Check for NIM
+    if (isNimExists(nim)) {
+      return NextResponse.json(
+        { success: false, message: `NIM "${nim.trim()}" sudah terdaftar di database! Tidak bisa menginput NIM ganda.` },
         { status: 400 }
       );
     }

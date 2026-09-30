@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import * as XLSX from 'xlsx';
 import {
   Users,
   Search,
@@ -286,30 +287,49 @@ export default function DashboardPage() {
     }
   };
 
-  // Export CSV Function
-  const exportToCSV = () => {
+  // Export Excel (.xlsx) Function with professional formatting & WIB Timezone
+  const exportToExcel = () => {
     if (pengurusList.length === 0) return;
-    const headers = ['ID', 'Nama', 'NIM', 'Angkatan', 'Instansi', 'Domisili/Alamat', 'No WhatsApp', 'Jabatan HIMA'];
-    const rows = filteredList.map((item) => [
-      item.id,
-      `"${item.nama.replace(/"/g, '""')}"`,
-      `"${item.nim}"`,
-      `"${item.angkatan}"`,
-      `"${item.asal_instansi.replace(/"/g, '""')}"`,
-      `"${item.alamat_domisili.replace(/"/g, '""')}"`,
-      `"${item.no_whatsapp}"`,
-      `"${item.jabatan_hima.replace(/"/g, '""')}"`,
-    ]);
 
-    const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `Biodata_Pengurus_HimaDifa_UAD_${new Date().toISOString().slice(0, 10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    showToast('File CSV berhasil diunduh!');
+    const excelData = filteredList.map((item, index) => ({
+      'No': index + 1,
+      'Nama Lengkap': item.nama,
+      'NIM': item.nim,
+      'Angkatan': item.angkatan,
+      'Jabatan HIMA': item.jabatan_hima,
+      'Asal Instansi / Pekerjaan': item.asal_instansi,
+      'Wilayah Domisili / Alamat': item.alamat_domisili,
+      'No. WhatsApp': item.no_whatsapp,
+      'Waktu Registrasi (WIB)': item.created_at || '-',
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
+
+    // Set professional column widths
+    worksheet['!cols'] = [
+      { wch: 6 },   // No
+      { wch: 28 },  // Nama
+      { wch: 16 },  // NIM
+      { wch: 12 },  // Angkatan
+      { wch: 28 },  // Jabatan HIMA
+      { wch: 32 },  // Asal Instansi
+      { wch: 38 },  // Alamat Domisili
+      { wch: 18 },  // No WhatsApp
+      { wch: 24 },  // Waktu Registrasi (WIB)
+    ];
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Pengurus HimaDifa');
+
+    const dateSuffix = new Date().toLocaleDateString('id-ID', {
+      timeZone: 'Asia/Jakarta',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).replace(/\//g, '-');
+
+    XLSX.writeFile(workbook, `Biodata_Pengurus_HimaDifa_UAD_${dateSuffix}.xlsx`);
+    showToast('File Excel (.xlsx) berhasil diunduh!');
   };
 
   if (authChecking) {
@@ -453,11 +473,11 @@ export default function DashboardPage() {
           {/* Action Buttons */}
           <div className="flex items-center gap-2">
             <button
-              onClick={exportToCSV}
-              className="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer"
+              onClick={exportToExcel}
+              className="px-3.5 py-2.5 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-500/40 text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-md"
             >
               <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
-              <span>Export CSV</span>
+              <span>Export Excel (.xlsx)</span>
             </button>
             <button
               onClick={openCreateModal}

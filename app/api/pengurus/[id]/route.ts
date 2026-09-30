@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getPengurusById, updatePengurus, deletePengurus } from '@/lib/db';
+import { getPengurusById, updatePengurus, deletePengurus, isNamaExists, isNimExists } from '@/lib/db';
 
 export async function GET(
   request: NextRequest,
@@ -38,6 +38,23 @@ export async function PUT(
     }
 
     const body = await request.json();
+
+    // Check duplicate Nama (exclude current id)
+    if (body.nama && isNamaExists(body.nama, numId)) {
+      return NextResponse.json(
+        { success: false, message: `Nama "${body.nama.trim()}" sudah digunakan pengurus lain!` },
+        { status: 400 }
+      );
+    }
+
+    // Check duplicate NIM (exclude current id)
+    if (body.nim && isNimExists(body.nim, numId)) {
+      return NextResponse.json(
+        { success: false, message: `NIM "${body.nim.trim()}" sudah digunakan pengurus lain!` },
+        { status: 400 }
+      );
+    }
+
     const updated = updatePengurus(numId, body);
 
     if (!updated) {

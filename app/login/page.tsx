@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ShieldLock, Lock, User, Eye, EyeOff, ArrowLeft, LogIn, Sparkles } from 'lucide-react';
+import { ShieldLock, Lock, User, Eye, EyeOff, ArrowLeft, LogIn } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -32,32 +32,6 @@ export default function LoginPage() {
         router.push('/dashboard');
       } else {
         setErrorMessage(json.message || 'Login gagal. Periksa username & password.');
-      }
-    } catch (err) {
-      setErrorMessage('Terjadi kesalahan koneksi.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleQuickDemoLogin = async () => {
-    setUsername('admin');
-    setPassword('himadifa2026');
-    setLoading(true);
-    setErrorMessage('');
-
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: 'admin', password: 'himadifa2026' }),
-      });
-
-      const json = await res.json();
-      if (json.success) {
-        router.push('/dashboard');
-      } else {
-        setErrorMessage(json.message || 'Gagal login demo.');
       }
     } catch (err) {
       setErrorMessage('Terjadi kesalahan koneksi.');
@@ -193,19 +167,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          {/* Quick Demo Helper */}
-          <div className="mt-6 pt-4 border-t border-slate-800 text-center">
-            <p className="text-[11px] text-slate-400 mb-2">Uji Coba Cepat (Akun Demo):</p>
-            <button
-              type="button"
-              onClick={handleQuickDemoLogin}
-              className="w-full py-2.5 px-3 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-              <span>Login Demo Otomatis (admin / himadifa2026)</span>
-            </button>
-          </div>
         </div>
       </main>
 

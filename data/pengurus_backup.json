@@ -1,0 +1,38 @@
+[
+  {
+    "id": 3,
+    "nama": "Rizky Ramadhan",
+    "nim": "2400018105",
+    "angkatan": "DIFA5",
+    "asal_instansi": "Universitas Ahmad Dahlan",
+    "alamat_domisili": "Depok, Kabupaten Sleman",
+    "no_whatsapp": "083456789012",
+    "jabatan_hima": "Bendahara Utama",
+    "created_at": "2026-09-30 15:27:08",
+    "updated_at": "2026-09-30 15:27:08"
+  },
+  {
+    "id": 2,
+    "nama": "Nabila Putri",
+    "nim": "2300018042",
+    "angkatan": "DIFA4",
+    "asal_instansi": "Universitas Ahmad Dahlan",
+    "alamat_domisili": "Banguntapan, Kabupaten Bantul",
+    "no_whatsapp": "082345678901",
+    "jabatan_hima": "Sekretaris General",
+    "created_at": "2026-09-30 15:27:08",
+    "updated_at": "2026-09-30 15:27:08"
+  },
+  {
+    "id": 1,
+    "nama": "Ahmad Fadhil",
+    "nim": "2200018001",
+    "angkatan": "DIFA3",
+    "asal_instansi": "Universitas Ahmad Dahlan",
+    "alamat_domisili": "Umbulharjo, Kota Yogyakarta",
+    "no_whatsapp": "081234567890",
+    "jabatan_hima": "Ketua Umum HIMA",
+    "created_at": "2026-09-30 15:27:08",
+    "updated_at": "2026-09-30 15:27:08"
+  }
+]
