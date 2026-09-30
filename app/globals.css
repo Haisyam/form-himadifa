@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --hima-navy: #091B33;
+    --hima-navy-light: #0F2C59;
+    --hima-blue: #0066FF;
+    --hima-orange: #FF6B00;
+    --hima-gold: #FF9F00;
+    --bg-gradient-start: #06101E;
+    --bg-gradient-end: #0D2240;
+  }
+}
+
+body {
+  background-color: #071324;
+  color: #F8FAFC;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism card styles */
+.glass-card {
+  background: rgba(15, 30, 54, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 102, 255, 0.1);
+}
+
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 20px 40px rgba(9, 27, 51, 0.08);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  transition: all 0.25s ease;
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #FF6B00;
+  box-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
+  outline: none;
+}
+
+/* Glow effects */
+.glow-orange {
+  box-shadow: 0 0 25px rgba(255, 107, 0, 0.4);
+}
+
+.glow-blue {
+  box-shadow: 0 0 25px rgba(0, 102, 255, 0.4);
+}
+
+.gradient-text-orange {
+  background: linear-gradient(135deg, #FF9F00 0%, #FF6B00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-blue {
+  background: linear-gradient(135deg, #38BDF8 0%, #0066FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-gradient-primary {
+  background: linear-gradient(135deg, #FF8800 0%, #FF5500 100%);
+  color: #FFFFFF;
+  box-shadow: 0 10px 25px rgba(255, 107, 0, 0.35);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-gradient-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(255, 107, 0, 0.5);
+}
+
+.btn-gradient-primary:active {
+  transform: translateY(0);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(9, 27, 51, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 107, 0, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 0, 0.8);
+}
