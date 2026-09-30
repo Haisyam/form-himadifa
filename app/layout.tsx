@@ -40,11 +40,11 @@ export const metadata: Metadata = {
   publisher: "Universitas Ahmad Dahlan",
   icons: {
     icon: [
+      { url: "/icon.jpeg", type: "image/jpeg" },
       { url: "/logo himadifa.jpeg", type: "image/jpeg" },
-      { url: "/logo uad.png", type: "image/png" },
     ],
-    shortcut: "/logo himadifa.jpeg",
-    apple: "/logo himadifa.jpeg",
+    shortcut: "/icon.jpeg",
+    apple: "/icon.jpeg",
   },
   openGraph: {
     title: "Form Biodata Pengurus HimaDifa UAD",
