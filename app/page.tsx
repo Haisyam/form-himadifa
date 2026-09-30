@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import {
   User,
   CreditCard,
@@ -17,63 +17,67 @@ import {
   Sparkles,
   RefreshCw,
   Copy,
-  Check
-} from 'lucide-react';
+  Check,
+} from "lucide-react";
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    nama: '',
-    nim: '',
-    angkatan: 'DIFA4',
-    asal_instansi: 'Universitas Ahmad Dahlan',
-    alamat_domisili: '',
-    no_whatsapp: '',
+    nama: "",
+    nim: "",
+    angkatan: "DIFA4",
+    asal_instansi: "Universitas Ahmad Dahlan",
+    alamat_domisili: "",
+    no_whatsapp: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [submittedData, setSubmittedData] = useState<any>(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage('');
-    
+    setErrorMessage("");
+
     // Simple validation
     if (!formData.nama.trim()) {
-      setErrorMessage('Nama Lengkap wajib diisi!');
+      setErrorMessage("Nama Lengkap wajib diisi!");
       return;
     }
     if (!formData.nim.trim()) {
-      setErrorMessage('NIM wajib diisi!');
+      setErrorMessage("NIM wajib diisi!");
       return;
     }
     if (!formData.asal_instansi.trim()) {
-      setErrorMessage('Asal Universitas / Instansi Pekerjaan wajib diisi!');
+      setErrorMessage("Asal Universitas / Instansi Pekerjaan wajib diisi!");
       return;
     }
     if (!formData.alamat_domisili.trim()) {
-      setErrorMessage('Wilayah Domisili / Alamat wajib diisi!');
+      setErrorMessage("Wilayah Domisili / Alamat wajib diisi!");
       return;
     }
     if (!formData.no_whatsapp.trim()) {
-      setErrorMessage('No WhatsApp wajib diisi!');
+      setErrorMessage("No WhatsApp wajib diisi!");
       return;
     }
 
     setLoading(true);
 
     try {
-      const res = await fetch('/api/pengurus', {
-        method: 'POST',
+      const res = await fetch("/api/pengurus", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -85,18 +89,22 @@ export default function Home() {
         setShowSuccessModal(true);
         // Reset form
         setFormData({
-          nama: '',
-          nim: '',
-          angkatan: 'DIFA4',
-          asal_instansi: 'Universitas Ahmad Dahlan',
-          alamat_domisili: '',
-          no_whatsapp: '',
+          nama: "",
+          nim: "",
+          angkatan: "DIFA4",
+          asal_instansi: "Universitas Ahmad Dahlan",
+          alamat_domisili: "",
+          no_whatsapp: "",
         });
       } else {
-        setErrorMessage(json.message || 'Gagal mengirim data. Silakan coba lagi.');
+        setErrorMessage(
+          json.message || "Gagal mengirim data. Silakan coba lagi.",
+        );
       }
     } catch (err) {
-      setErrorMessage('Terjadi kesalahan koneksi. Pastikan internet Anda terhubung.');
+      setErrorMessage(
+        "Terjadi kesalahan koneksi. Pastikan internet Anda terhubung.",
+      );
     } finally {
       setLoading(false);
     }
@@ -104,7 +112,8 @@ export default function Home() {
 
   const copySummary = () => {
     if (!submittedData) return;
-    const text = `*BIODATA PENGURUS HIMADIFA UAD*\n\n` +
+    const text =
+      `*BIODATA PENGURUS HIMADIFA UAD*\n\n` +
       `👤 *Nama:* ${submittedData.nama}\n` +
       `💳 *NIM:* ${submittedData.nim}\n` +
       `🎓 *Angkatan:* ${submittedData.angkatan}\n` +
@@ -112,14 +121,17 @@ export default function Home() {
       `📍 *Domisili:* ${submittedData.alamat_domisili}\n` +
       `📱 *WhatsApp:* ${submittedData.no_whatsapp}\n` +
       `💼 *Jabatan:* ${submittedData.jabatan_hima}`;
-    
+
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-[#06101E] via-[#091B33] to-[#0A2540] flex flex-col justify-between p-4 sm:p-6 md:p-8 relative overflow-hidden" suppressHydrationWarning>
+    <div
+      className="min-h-screen w-full bg-gradient-to-b from-[#06101E] via-[#091B33] to-[#0A2540] flex flex-col justify-between p-4 sm:p-6 md:p-8 relative overflow-hidden"
+      suppressHydrationWarning
+    >
       {/* Dynamic Background Glowing Orbs */}
       <div className="absolute top-[-10%] left-[-10%] w-72 h-72 sm:w-96 sm:h-96 bg-orange-500/15 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-80 h-80 sm:w-[500px] sm:h-[500px] bg-blue-600/20 rounded-full blur-[150px] pointer-events-none"></div>
@@ -177,7 +189,8 @@ export default function Home() {
               <span className="gradient-text-orange">HimaDifa UAD</span>
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-md mx-auto leading-relaxed">
-              Silakan lengkapi formulir biodata di bawah ini secara akurat untuk kebutuhan pendataan pengurus.
+              Silakan lengkapi formulir biodata di bawah ini secara akurat untuk
+              kebutuhan pendataan pengurus.
             </p>
           </div>
 
@@ -193,7 +206,10 @@ export default function Home() {
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
             {/* 1. Nama Lengkap */}
             <div>
-              <label htmlFor="nama" className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5 flex items-center gap-2">
+              <label
+                htmlFor="nama"
+                className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5 flex items-center gap-2"
+              >
                 <User className="w-4 h-4 text-orange-400" />
                 <span>Nama Lengkap</span>
                 <span className="text-orange-500">*</span>
@@ -204,7 +220,7 @@ export default function Home() {
                 name="nama"
                 value={formData.nama}
                 onChange={handleChange}
-                placeholder="Contoh: Ahmad Fadhil"
+                placeholder="Contoh: Ferga Pras"
                 required
                 className="w-full px-4 py-3 rounded-xl glass-input text-sm text-white placeholder-slate-400"
               />
@@ -212,7 +228,10 @@ export default function Home() {
 
             {/* 2. NIM */}
             <div>
-              <label htmlFor="nim" className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5 flex items-center gap-2">
+              <label
+                htmlFor="nim"
+                className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5 flex items-center gap-2"
+              >
                 <CreditCard className="w-4 h-4 text-orange-400" />
                 <span>NIM (Nomor Induk Mahasiswa)</span>
                 <span className="text-orange-500">*</span>
@@ -237,15 +256,17 @@ export default function Home() {
                 <span className="text-orange-500">*</span>
               </label>
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                {['DIFA3', 'DIFA4', 'DIFA5'].map((angkatan) => (
+                {["DIFA3", "DIFA4", "DIFA5"].map((angkatan) => (
                   <button
                     key={angkatan}
                     type="button"
-                    onClick={() => setFormData(prev => ({ ...prev, angkatan }))}
+                    onClick={() =>
+                      setFormData((prev) => ({ ...prev, angkatan }))
+                    }
                     className={`py-3 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 border flex flex-col items-center justify-center gap-1 ${
                       formData.angkatan === angkatan
-                        ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400 shadow-lg shadow-orange-500/25 scale-[1.02]'
-                        : 'bg-slate-800/40 text-slate-300 border-slate-700 hover:bg-slate-700/50 hover:border-slate-600'
+                        ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400 shadow-lg shadow-orange-500/25 scale-[1.02]"
+                        : "bg-slate-800/40 text-slate-300 border-slate-700 hover:bg-slate-700/50 hover:border-slate-600"
                     }`}
                   >
                     <span>{angkatan}</span>
@@ -256,7 +277,10 @@ export default function Home() {
 
             {/* 4. Asal Universitas / Instansi Pekerjaan */}
             <div>
-              <label htmlFor="asal_instansi" className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5 flex items-center gap-2">
+              <label
+                htmlFor="asal_instansi"
+                className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5 flex items-center gap-2"
+              >
                 <Building2 className="w-4 h-4 text-orange-400" />
                 <span>Asal Universitas / Instansi Pekerjaan</span>
                 <span className="text-orange-500">*</span>
@@ -275,7 +299,10 @@ export default function Home() {
 
             {/* 5. Wilayah Domisili / Alamat */}
             <div>
-              <label htmlFor="alamat_domisili" className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5 flex items-center gap-2">
+              <label
+                htmlFor="alamat_domisili"
+                className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5 flex items-center gap-2"
+              >
                 <MapPin className="w-4 h-4 text-orange-400" />
                 <span>Wilayah Domisili / Alamat</span>
                 <span className="text-orange-500">*</span>
@@ -294,7 +321,10 @@ export default function Home() {
 
             {/* 6. No WhatsApp */}
             <div>
-              <label htmlFor="no_whatsapp" className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5 flex items-center gap-2">
+              <label
+                htmlFor="no_whatsapp"
+                className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5 flex items-center gap-2"
+              >
                 <Phone className="w-4 h-4 text-orange-400" />
                 <span>No WhatsApp</span>
                 <span className="text-orange-500">*</span>
@@ -375,26 +405,37 @@ export default function Home() {
               Biodata Berhasil Terkirim!
             </h3>
             <p className="text-xs sm:text-sm text-slate-300 mb-6">
-              Terima kasih <strong className="text-orange-400">{submittedData.nama}</strong>, data biodata pengurus Anda telah tersimpan ke dalam database HimaDifa UAD.
+              Terima kasih{" "}
+              <strong className="text-orange-400">{submittedData.nama}</strong>,
+              data biodata pengurus Anda telah tersimpan ke dalam database
+              HimaDifa UAD.
             </p>
 
             {/* Quick Summary Card */}
             <div className="bg-slate-900/60 rounded-2xl p-4 mb-6 text-left border border-slate-700/60 text-xs sm:text-sm space-y-2">
               <div className="flex justify-between border-b border-slate-800 pb-1.5">
                 <span className="text-slate-400">NIM:</span>
-                <span className="font-semibold text-white">{submittedData.nim}</span>
+                <span className="font-semibold text-white">
+                  {submittedData.nim}
+                </span>
               </div>
               <div className="flex justify-between border-b border-slate-800 pb-1.5">
                 <span className="text-slate-400">Angkatan:</span>
-                <span className="font-semibold text-orange-400">{submittedData.angkatan}</span>
+                <span className="font-semibold text-orange-400">
+                  {submittedData.angkatan}
+                </span>
               </div>
               <div className="flex justify-between border-b border-slate-800 pb-1.5">
                 <span className="text-slate-400">WhatsApp:</span>
-                <span className="font-semibold text-white">{submittedData.no_whatsapp}</span>
+                <span className="font-semibold text-white">
+                  {submittedData.no_whatsapp}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Jabatan:</span>
-                <span className="font-semibold text-amber-300">{submittedData.jabatan_hima}</span>
+                <span className="font-semibold text-amber-300">
+                  {submittedData.jabatan_hima}
+                </span>
               </div>
             </div>
 
